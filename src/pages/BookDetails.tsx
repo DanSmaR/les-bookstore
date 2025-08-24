@@ -184,40 +184,6 @@ const BookDetails: React.FC = () => {
         </p>
       </Card>
 
-      {/* Livros Relacionados */}
-      <div className="mt-12">
-        <h3 className="text-2xl font-bold mb-6">Livros Relacionados</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockBooks
-            .filter(b => b.id !== book.id && b.category.some(cat => book.category.includes(cat)))
-            .slice(0, 4)
-            .map((relatedBook) => (
-              <Card key={relatedBook.id} className="group cursor-pointer hover:shadow-lg transition-shadow">
-                <div 
-                  className="p-4"
-                  onClick={() => navigate(`/book/${relatedBook.id}`)}
-                >
-                  <div className="aspect-[2/3] bg-muted rounded-lg mb-3 overflow-hidden">
-                    <img
-                      src={relatedBook.image || '/placeholder.svg'}
-                      alt={relatedBook.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <h4 className="font-semibold text-sm line-clamp-2 mb-1">
-                    {relatedBook.title}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mb-2">
-                    {relatedBook.author}
-                  </p>
-                  <p className="text-sm font-bold text-primary">
-                    {formatPrice(relatedBook.price)}
-                  </p>
-                </div>
-              </Card>
-            ))}
-        </div>
-      </div>
     </div>
   );
 };
