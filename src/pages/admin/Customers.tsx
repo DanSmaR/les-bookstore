@@ -4,6 +4,7 @@ import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import Select from '../../components/common/Select';
 import Badge from '../../components/common/Badge';
+import Modal from '../../components/common/Modal';
 
 interface Customer {
   id: string;
@@ -82,6 +83,15 @@ const Customers: React.FC = () => {
   });
 
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
+  const [editFormData, setEditFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    gender: 'M' as 'M' | 'F' | 'O',
+    birthDate: ''
+  });
 
   const filteredCustomers = customers.filter(customer => {
     const matchesSearch = 
@@ -115,6 +125,32 @@ const Customers: React.FC = () => {
   const toggleCustomerStatus = (customerId: string) => {
     // Aqui seria feita a chamada para ativar/inativar o cliente
     console.log('Toggling status for customer:', customerId);
+  };
+
+  const handleEditCustomer = (customer: Customer) => {
+    setEditingCustomer(customer);
+    setEditFormData({
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+      gender: customer.gender,
+      birthDate: customer.birthDate
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingCustomer) {
+      // Aqui seria feita a chamada para salvar as alterações
+      console.log('Saving customer edits:', { ...editingCustomer, ...editFormData });
+      setIsEditModalOpen(false);
+      setEditingCustomer(null);
+    }
+  };
+
+  const handleEditFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setEditFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const formatCurrency = (value: number) => {
@@ -385,7 +421,12 @@ const Customers: React.FC = () => {
                     <Button className="w-full" size="sm">
                       Ver Todas as Transações
                     </Button>
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      size="sm"
+                      onClick={() => handleEditCustomer(selectedCustomer)}
+                    >
                       Editar Cliente
                     </Button>
                     <Button 
@@ -411,6 +452,78 @@ const Customers: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* Edit Customer Modal */}
+        <Modal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          title="Editar Cliente"
+        >
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                label="Nome Completo"
+                name="name"
+                value={editFormData.name}
+                onChange={handleEditFormChange}
+              />
+
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                value={editFormData.email}
+                onChange={handleEditFormChange}
+              />
+
+              <Input
+                label="Telefone"
+                name="phone"
+                value={editFormData.phone}
+                onChange={handleEditFormChange}
+                mask="phone"
+              />
+
+              <Select
+                label="Gênero"
+                name="gender"
+                value={editFormData.gender}
+                onChange={handleEditFormChange}
+                options={[
+                  { value: 'M', label: 'Masculino' },
+                  { value: 'F', label: 'Feminino' },
+                  { value: 'O', label: 'Outro' }
+                ]}
+              />
+
+              <Input
+                label="Data de Nascimento"
+                type="date"
+                name="birthDate"
+                value={editFormData.birthDate}
+                onChange={handleEditFormChange}
+              />
+            </div>
+
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <h4 className="font-medium text-foreground mb-2">Informações Não Editáveis</h4>
+              <div className="space-y-1 text-sm text-muted-foreground">
+                <p>CPF: {editingCustomer?.cpf}</p>
+                <p>Código: {editingCustomer?.code}</p>
+                <p>Data de Cadastro: {editingCustomer && formatDate(editingCustomer.registrationDate)}</p>
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-4">
+              <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleSaveEdit}>
+                Salvar Alterações
+              </Button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );
