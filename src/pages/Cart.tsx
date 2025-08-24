@@ -137,7 +137,7 @@ const Cart: React.FC = () => {
               <Card key={item.bookId} className="p-4">
                 <div className="flex items-center gap-4">
                   <img 
-                    src={`/lovable-uploads/book-${Math.floor(Math.random() * 5) + 1}.jpg`}
+                    src={item.book.image || '/placeholder.svg'}
                     alt={item.book.title}
                     className="w-20 h-24 object-cover rounded"
                   />
