@@ -138,6 +138,13 @@ const Header: React.FC = () => {
                         >
                           Gerenciar Livros
                         </Link>
+                        <Link
+                          to="/admin/orders"
+                          className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Gerenciar Pedidos
+                        </Link>
                       </>
                     )}
                     <hr className="my-2 border-border" />
