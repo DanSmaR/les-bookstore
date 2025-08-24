@@ -123,13 +123,22 @@ const Header: React.FC = () => {
                         </Link>
                       </>
                     ) : (
-                      <Link
-                        to="/admin/customers"
-                        className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Gerenciar Clientes
-                      </Link>
+                      <>
+                        <Link
+                          to="/admin/customers"
+                          className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Gerenciar Clientes
+                        </Link>
+                        <Link
+                          to="/admin/books"
+                          className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Gerenciar Livros
+                        </Link>
+                      </>
                     )}
                     <hr className="my-2 border-border" />
                     <button
