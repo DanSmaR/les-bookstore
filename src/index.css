@@ -193,10 +193,10 @@ Tipografia: Open Sans
            transform hover:-translate-y-1;
   }
 
-  /* Input styles */
+  /* Input styles - Fixed for better visibility */
   .input-base {
     @apply w-full px-4 py-3 border border-border rounded-lg 
-           bg-input text-foreground placeholder:text-muted-foreground
+           bg-background text-foreground placeholder:text-muted-foreground
            focus:ring-2 focus:ring-primary/20 focus:border-primary 
            transition-all duration-200 ease-in-out
            disabled:cursor-not-allowed disabled:opacity-50;
