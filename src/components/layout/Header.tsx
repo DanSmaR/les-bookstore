@@ -145,6 +145,13 @@ const Header: React.FC = () => {
                         >
                           Gerenciar Pedidos
                         </Link>
+                        <Link
+                          to="/admin/inventory"
+                          className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Controle de Estoque
+                        </Link>
                       </>
                     )}
                     <hr className="my-2 border-border" />

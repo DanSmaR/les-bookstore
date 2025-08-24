@@ -168,3 +168,27 @@ export interface Notification {
   message: string;
   duration?: number;
 }
+
+// Inventory types
+export interface StockEntry {
+  id: string;
+  bookId: string;
+  book: Book;
+  quantity: number;
+  costPrice: number;
+  supplier: string;
+  entryDate: string;
+  entryType: 'COMPRA' | 'TROCA' | 'AJUSTE';
+  notes?: string;
+}
+
+export interface StockMovement {
+  id: string;
+  bookId: string;
+  book: Book;
+  type: 'ENTRADA' | 'SAIDA';
+  quantity: number;
+  reason: string;
+  date: string;
+  reference?: string;
+}
