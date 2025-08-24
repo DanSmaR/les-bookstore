@@ -199,7 +199,7 @@ const Inventory: React.FC = () => {
   const filteredEntries = stockEntries.filter(entry => {
     const matchesSearch = entry.book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          entry.book.author.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSupplier = !filterSupplier || entry.supplier === filterSupplier;
+    const matchesSupplier = !filterSupplier || filterSupplier === "all" || entry.supplier === filterSupplier;
     return matchesSearch && matchesSupplier;
   });
 
@@ -376,7 +376,7 @@ const Inventory: React.FC = () => {
                   <SelectValue placeholder="Filtrar por fornecedor" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos os fornecedores</SelectItem>
+                  <SelectItem value="all">Todos os fornecedores</SelectItem>
                   {suppliers.map((supplier) => (
                     <SelectItem key={supplier} value={supplier}>
                       {supplier}
