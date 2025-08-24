@@ -114,14 +114,21 @@ const Header: React.FC = () => {
                         >
                           Endereços
                         </Link>
+                        <Link
+                          to="/payment-methods"
+                          className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Cartões
+                        </Link>
                       </>
                     ) : (
                       <Link
-                        to="/admin"
+                        to="/admin/customers"
                         className="block px-4 py-2 text-foreground hover:bg-muted transition-colors"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        Painel Admin
+                        Gerenciar Clientes
                       </Link>
                     )}
                     <hr className="my-2 border-border" />
