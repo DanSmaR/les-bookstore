@@ -20,7 +20,11 @@ const Input: React.FC<InputProps> = ({
   onChange,
   ...props
 }) => {
-  const [internalValue, setInternalValue] = useState(value || '');
+  const [internalValue, setInternalValue] = useState('');
+  
+  // Determina se é um input controlado ou não-controlado
+  const isControlled = value !== undefined;
+  const inputValue = isControlled ? value : internalValue;
 
   const applyMask = (value: string, maskType: string): string => {
     const numbers = value.replace(/\D/g, '');
@@ -51,8 +55,12 @@ const Input: React.FC<InputProps> = ({
       newValue = applyMask(newValue, mask);
     }
     
-    setInternalValue(newValue);
+    // Se não é controlado, atualiza o estado interno
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
     
+    // Sempre chama o onChange se fornecido
     if (onChange) {
       const syntheticEvent = {
         ...e,
@@ -90,7 +98,7 @@ const Input: React.FC<InputProps> = ({
         
         <input
           className={inputClasses}
-          value={value !== undefined ? value : internalValue}
+          value={inputValue}
           onChange={handleChange}
           {...props}
         />
