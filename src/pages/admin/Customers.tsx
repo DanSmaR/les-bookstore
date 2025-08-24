@@ -23,6 +23,16 @@ interface Customer {
   ordersCount: number;
 }
 
+interface Transaction {
+  id: string;
+  date: string;
+  orderId: string;
+  amount: number;
+  status: 'completed' | 'pending' | 'cancelled';
+  items: string[];
+  paymentMethod: string;
+}
+
 const Customers: React.FC = () => {
   const [customers] = useState<Customer[]>([
     {
@@ -84,6 +94,7 @@ const Customers: React.FC = () => {
 
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isTransactionsModalOpen, setIsTransactionsModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
   const [editFormData, setEditFormData] = useState({
     name: '',
@@ -91,6 +102,61 @@ const Customers: React.FC = () => {
     phone: '',
     gender: 'M' as 'M' | 'F' | 'O',
     birthDate: ''
+  });
+
+  // Mock transactions data
+  const [transactions] = useState<Record<string, Transaction[]>>({
+    '1': [
+      {
+        id: 'T001',
+        date: '2025-08-20',
+        orderId: 'PED-001',
+        amount: 299.90,
+        status: 'completed',
+        items: ['Livro "Dom Casmurro"', 'Livro "O Cortiço"'],
+        paymentMethod: 'Cartão de Crédito'
+      },
+      {
+        id: 'T002',
+        date: '2025-08-15',
+        orderId: 'PED-002',
+        amount: 149.50,
+        status: 'completed',
+        items: ['Livro "Memórias Póstumas"'],
+        paymentMethod: 'PIX'
+      },
+      {
+        id: 'T003',
+        date: '2025-07-28',
+        orderId: 'PED-003',
+        amount: 89.90,
+        status: 'cancelled',
+        items: ['Livro "Iracema"'],
+        paymentMethod: 'Cartão de Débito'
+      }
+    ],
+    '2': [
+      {
+        id: 'T004',
+        date: '2025-08-18',
+        orderId: 'PED-004',
+        amount: 199.90,
+        status: 'completed',
+        items: ['Livro "Senhora"', 'Livro "Lucíola"'],
+        paymentMethod: 'Cartão de Crédito'
+      }
+    ],
+    '3': [
+      {
+        id: 'T005',
+        date: '2025-06-15',
+        orderId: 'PED-005',
+        amount: 99.90,
+        status: 'completed',
+        items: ['Livro "O Guarani"'],
+        paymentMethod: 'PIX'
+      }
+    ]
   });
 
   const filteredCustomers = customers.filter(customer => {
@@ -151,6 +217,24 @@ const Customers: React.FC = () => {
   const handleEditFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setEditFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleViewTransactions = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setIsTransactionsModalOpen(true);
+  };
+
+  const getStatusBadge = (status: Transaction['status']) => {
+    switch (status) {
+      case 'completed':
+        return <Badge variant="success">Concluída</Badge>;
+      case 'pending':
+        return <Badge variant="warning">Pendente</Badge>;
+      case 'cancelled':
+        return <Badge variant="error">Cancelada</Badge>;
+      default:
+        return <Badge variant="default">{status}</Badge>;
+    }
   };
 
   const formatCurrency = (value: number) => {
@@ -309,7 +393,14 @@ const Customers: React.FC = () => {
                     >
                       {customer.status === 'active' ? 'Inativar' : 'Ativar'}
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleViewTransactions(customer);
+                      }}
+                    >
                       Ver Transações
                     </Button>
                   </div>
@@ -418,7 +509,11 @@ const Customers: React.FC = () => {
                   </div>
 
                   <div className="pt-4 space-y-2">
-                    <Button className="w-full" size="sm">
+                    <Button 
+                      className="w-full" 
+                      size="sm"
+                      onClick={() => handleViewTransactions(selectedCustomer)}
+                    >
                       Ver Todas as Transações
                     </Button>
                     <Button 
@@ -520,6 +615,101 @@ const Customers: React.FC = () => {
               </Button>
               <Button onClick={handleSaveEdit}>
                 Salvar Alterações
+              </Button>
+            </div>
+          </div>
+        </Modal>
+
+        {/* Transactions Modal */}
+        <Modal
+          isOpen={isTransactionsModalOpen}
+          onClose={() => setIsTransactionsModalOpen(false)}
+          title={`Transações - ${selectedCustomer?.name}`}
+        >
+          <div className="space-y-6">
+            {selectedCustomer && transactions[selectedCustomer.id] ? (
+              <div className="space-y-4">
+                <div className="text-sm text-muted-foreground">
+                  Total de {transactions[selectedCustomer.id].length} transação(ões) encontrada(s)
+                </div>
+                
+                {transactions[selectedCustomer.id].map((transaction) => (
+                  <Card key={transaction.id} className="p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <h4 className="font-medium text-foreground">
+                            {transaction.orderId}
+                          </h4>
+                          {getStatusBadge(transaction.status)}
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDate(transaction.date)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-lg text-foreground">
+                          {formatCurrency(transaction.amount)}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {transaction.paymentMethod}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h5 className="text-sm font-medium text-foreground mb-1">
+                        Itens:
+                      </h5>
+                      <ul className="text-sm text-muted-foreground">
+                        {transaction.items.map((item, index) => (
+                          <li key={index}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Card>
+                ))}
+                
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h4 className="font-medium text-foreground mb-2">Resumo</h4>
+                  <div className="space-y-1 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Total gasto:</span>
+                      <span className="font-medium">
+                        {formatCurrency(
+                          transactions[selectedCustomer.id]
+                            .filter(t => t.status === 'completed')
+                            .reduce((sum, t) => sum + t.amount, 0)
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Transações concluídas:</span>
+                      <span className="font-medium">
+                        {transactions[selectedCustomer.id].filter(t => t.status === 'completed').length}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Transações canceladas:</span>
+                      <span className="font-medium">
+                        {transactions[selectedCustomer.id].filter(t => t.status === 'cancelled').length}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-2xl mb-3">📊</div>
+                <p className="text-muted-foreground">
+                  Nenhuma transação encontrada para este cliente
+                </p>
+              </div>
+            )}
+            
+            <div className="flex justify-end">
+              <Button variant="outline" onClick={() => setIsTransactionsModalOpen(false)}>
+                Fechar
               </Button>
             </div>
           </div>
