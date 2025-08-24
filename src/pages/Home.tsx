@@ -60,30 +60,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container-custom">
-          <h2 className="text-3xl font-bold text-center mb-12">Categorias Populares</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map((category) => (
-              <Link
-                key={category}
-                to={`/catalog?category=${encodeURIComponent(category)}`}
-                className="group"
-              >
-                <Card hover className="text-center p-6 h-full">
-                  <div className="w-12 h-12 mx-auto mb-3 bg-primary/10 rounded-full flex items-center justify-center text-primary text-xl">
-                    📚
-                  </div>
-                  <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
-                    {category}
-                  </h3>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Featured Books */}
       <section className="py-16">
@@ -193,30 +169,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="py-16">
-        <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Receba Nossas Novidades
-            </h2>
-            <p className="text-muted-foreground mb-8">
-              Cadastre-se e seja o primeiro a saber sobre lançamentos e ofertas especiais
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Seu melhor email"
-                className="input-base flex-1"
-              />
-              <Button className="whitespace-nowrap">
-                Cadastrar
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

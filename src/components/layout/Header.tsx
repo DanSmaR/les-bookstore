@@ -36,12 +36,6 @@ const Header: React.FC = () => {
             <Link to="/catalog" className="text-foreground hover:text-primary transition-colors">
               Catálogo
             </Link>
-            <Link to="/categories" className="text-foreground hover:text-primary transition-colors">
-              Categorias
-            </Link>
-            <Link to="/offers" className="text-foreground hover:text-primary transition-colors">
-              Ofertas
-            </Link>
           </nav>
 
           {/* Right side */}
@@ -169,12 +163,6 @@ const Header: React.FC = () => {
             <div className="flex flex-col space-y-4">
               <Link to="/catalog" className="text-foreground hover:text-primary transition-colors">
                 Catálogo
-              </Link>
-              <Link to="/categories" className="text-foreground hover:text-primary transition-colors">
-                Categorias
-              </Link>
-              <Link to="/offers" className="text-foreground hover:text-primary transition-colors">
-                Ofertas
               </Link>
               
               {/* Mobile search */}

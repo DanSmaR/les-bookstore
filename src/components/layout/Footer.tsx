@@ -36,69 +36,6 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Links Rápidos</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/catalog" className="text-muted-foreground hover:text-primary transition-colors">
-                  Catálogo
-                </Link>
-              </li>
-              <li>
-                <Link to="/categories" className="text-muted-foreground hover:text-primary transition-colors">
-                  Categorias
-                </Link>
-              </li>
-              <li>
-                <Link to="/offers" className="text-muted-foreground hover:text-primary transition-colors">
-                  Ofertas
-                </Link>
-              </li>
-              <li>
-                <Link to="/bestsellers" className="text-muted-foreground hover:text-primary transition-colors">
-                  Mais Vendidos
-                </Link>
-              </li>
-              <li>
-                <Link to="/new-releases" className="text-muted-foreground hover:text-primary transition-colors">
-                  Lançamentos
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Customer Service */}
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Atendimento</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  Fale Conosco
-                </Link>
-              </li>
-              <li>
-                <Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">
-                  Perguntas Frequentes
-                </Link>
-              </li>
-              <li>
-                <Link to="/shipping" className="text-muted-foreground hover:text-primary transition-colors">
-                  Informações de Entrega
-                </Link>
-              </li>
-              <li>
-                <Link to="/returns" className="text-muted-foreground hover:text-primary transition-colors">
-                  Trocas e Devoluções
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
-                  Política de Privacidade
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
 
         <hr className="my-8 border-border" />
