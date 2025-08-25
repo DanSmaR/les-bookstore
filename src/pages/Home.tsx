@@ -40,19 +40,10 @@ const Home: React.FC = () => {
             <p className="text-xl md:text-2xl mb-8 text-white/90">
               Mais de 10.000 livros dos melhores autores. Entrega rápida para todo o Brasil.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Link to="/catalog">
                 <Button size="lg" className="btn-primary w-full sm:w-auto">
                   Explorar Catálogo
-                </Button>
-              </Link>
-              <Link to="/offers">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-primary"
-                >
-                  Ver Ofertas
                 </Button>
               </Link>
             </div>
